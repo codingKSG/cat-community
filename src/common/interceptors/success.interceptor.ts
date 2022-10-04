@@ -12,6 +12,10 @@ export class SuccessInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     console.log('Before...');
 
-    return next.handle().pipe(map((data) => ({ success: true, ...data })));
+    return next.handle().pipe(
+      map((data) => {
+        return { success: true, data };
+      }),
+    );
   }
 }
