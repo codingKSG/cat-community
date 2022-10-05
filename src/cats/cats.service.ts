@@ -8,14 +8,15 @@ import { Model } from 'mongoose';
 import { CatRequestDto } from './dto/cats.request.dto';
 import { Cat } from './cats.schema';
 import * as bcrypt from 'bcrypt';
+import { CatsReopsitory } from './cats.repository';
 
 @Injectable()
 export class CatsService {
-  constructor(@InjectModel(Cat.name) private readonly catModel: Model<Cat>) {}
+  constructor(private readonly catsRepository: CatsReopsitory) {}
 
   async singUp(body: CatRequestDto) {
     const { email, name, password } = body;
-    const isCatExist = await this.catModel.exists({ email });
+    const isCatExist = await this.catsRepository.existsByEmail(email);
 
     // 유효성 검사 - 이메일 중복확인
     if (isCatExist) {
@@ -26,7 +27,7 @@ export class CatsService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 데이터 저장
-    const cat = await this.catModel.create({
+    const cat = await this.catsRepository.create({
       email,
       name,
       password: hashedPassword,
