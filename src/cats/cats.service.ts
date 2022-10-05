@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CatRequestDto } from './cats.request.dto';
+import { CatRequestDto } from './dto/cats.request.dto';
 import { Cat } from './cats.schema';
 import * as bcrypt from 'bcrypt';
 
