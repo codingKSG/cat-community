@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CatRequestDto } from './dto/cats.request.dto';
-import { Cat } from './cats.schema';
+import { CatRequestDto } from './../dto/cats.request.dto';
+import { Cat } from './../cats.schema';
 import * as bcrypt from 'bcrypt';
-import { CatsReopsitory } from './cats.repository';
+import { CatsReopsitory } from './../cats.repository';
 
 @Injectable()
 export class CatsService {
@@ -37,5 +37,16 @@ export class CatsService {
     // const cat = await this.catModel.findOne().lean();
 
     return cat.readOnlyData;
+  }
+
+  async uploadImg(cat: Cat, files: Express.Multer.File[]) {
+    const fileName = `cats/${files[0].filename}`;
+
+    const newCat = await this.catsRepository.findCatByIdAndUpload(
+      cat.id,
+      fileName,
+    );
+
+    return newCat;
   }
 }
