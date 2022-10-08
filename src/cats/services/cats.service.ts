@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  HttpException,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CatRequestDto } from './../dto/cats.request.dto';
 import { Cat } from './../cats.schema';
 import * as bcrypt from 'bcrypt';
@@ -48,5 +42,11 @@ export class CatsService {
     );
 
     return newCat;
+  }
+
+  async getAllCats() {
+    const allCats = await this.catsRepository.findAll();
+    const reeadOnlyCats = allCats.map((cat) => cat.readOnlyData);
+    return reeadOnlyCats;
   }
 }
