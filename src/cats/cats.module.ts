@@ -1,5 +1,5 @@
 import { CatsReopsitory } from './cats.repository';
-import { Module, forwardRef, Controller } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CatsController } from './controllers/cats.controller';
 import { Cat, CatSchema } from './cats.schema';
