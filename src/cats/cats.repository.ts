@@ -1,8 +1,10 @@
+import { CommentsSchema } from './../comments/comments.schema';
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class CatsReopsitory {
@@ -23,7 +25,11 @@ export class CatsReopsitory {
   }
 
   async findAll() {
-    return await this.catModel.find();
+    const CommentsModel = mongoose.model('comments', CommentsSchema);
+    const result = await this.catModel
+      .find()
+      .populate('comments', CommentsModel); //다른 document 랑 이어주는 역할
+    return result;
   }
 
   async findCatByEmail(email: string): Promise<Cat | null> {
